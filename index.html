@@ -1,0 +1,71 @@
+<!doctype html>
+
+<html lang="ru_RU">
+<head>
+  <meta charset="utf-8">
+  <title>Отзывы о местах</title>
+	
+	<link rel="stylesheet" href="css/main.min.css">
+
+  <script src="https://api-maps.yandex.ru/2.1/?lang=ru_RU" type="text/javascript"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.0.5/handlebars.min.js"></script>
+</head>
+
+<body>
+
+<div id="map" class="map-container"></div>
+
+<div id="reviewWindow" class="review-window__wrapper" role="dialog"></div>
+
+	
+  <script src="js/main.js"></script>
+
+  <script type="text/x-handlebars-template" id="reviewWindowTemplate">
+      <div class="review-window__content">
+        <div class="content__header">
+          <button type="button" class="header__close-btn" onclick="Router.handle('closeReviewWindow')"></button>
+          <h4 class="header__place-name">
+            {{address}}
+          </h4>
+        </div>
+        <div class="content__body">
+          <ul id="reviewList" class="review-list">
+            {{#if publishedReviews}}
+              {{#each publishedReviews}}
+                <li class="review-list__item">
+                  <p class="review_details">
+                    <span class="review_author">{{name}}</span>
+                    <span class="review_place-and-time">{{place}} {{publishedOn}}</span>
+                  </p>
+                  <p class="review_text">{{reviewText}}</p>
+                </li>  
+              {{/each}}
+            {{else}}
+              <li class="review-list__item">{{noReviewsMessage}}</li>
+            {{/if}}
+          </ul>
+          <h5 class="review-form__title">Ваш отзыв</h5>
+          <form id="reviewForm" class="review-form" role="form" onchange="Router.handle('removeErrorClass', event.target)">
+              <input type="text" class="review-form__element" placeholder="Ваше имя">
+              <input type="text" class="review-form__element" placeholder="Укажите место">
+              <textarea class="review-form__element" rows="4" placeholder="Поделитесь впечатлениями"></textarea>
+          </form>
+        </div>
+        <div class="content__footer">
+          <button type="button" class="footer__add-btn" onclick="Router.handle('addReview')">Добавить</button>
+        </div>
+      </div>
+  </script>
+
+  <script type="text/x-handlebars-template" id="publishReviewTemplate">
+    <li class="review-list__item">
+      <p class="review_details">
+        <span class="review_author">{{name}}</span>
+        <span class="review_place-and-time">{{place}} {{publishedOn}}</span>
+      </p>
+      <p class="review_text">{{reviewText}}</p>
+    </li>
+  </script>
+
+</body>
+</html>
